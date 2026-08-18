@@ -10,6 +10,7 @@ import {
 import NodeWallet from "@anchor-lang/core/dist/cjs/nodewallet";
 import { BN } from "bn.js";
 import { expect } from "chai";
+import registrationIdl from "../idls/registration.json";
 
 const commitement: Commitment = "confirmed";
 
@@ -125,6 +126,12 @@ describe("pre-req-vault", () => {
       .rpc();
 
     confirmTx(tx);
+
+    const registrationProgram = new anchor.Program(registrationIdl as any, provider);
+    const appAccount = await registrationProgram.account.applicationAccount.fetch(applicationAccount);
+    console.log(appAccount);
+    expect(appAccount.user.toString()).to.equal(user.toString());
+    expect(appAccount.github).to.equal("kylederickkk");
 
     const finalBalanceVault = await provider.connection.getBalance(vaultPda);
     const finalBalanceUser = await provider.connection.getBalance(user);

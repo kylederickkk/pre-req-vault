@@ -6,3 +6,7 @@ node_modules
 test-ledger
 .yarn
 .surfpool
+*.bak
+.*.swp
+target/
+node_modules/
